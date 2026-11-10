@@ -1,0 +1,53 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 25, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": { "CMAKE_EXPORT_COMPILE_COMMANDS": "ON" }
+    },
+    { "name": "debug",   "displayName": "Debug",   "inherits": "base", "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" } },
+    { "name": "release", "displayName": "Release", "inherits": "base", "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" } },
+    {
+      "name": "asan",
+      "displayName": "AddressSanitizer (+ UBSan on GCC / Clang)",
+      "description": "MSVC: /fsanitize=address; GCC / Clang: -fsanitize=address,undefined. RelWithDebInfo (MSVC's /RTC checks don't mix with ASan).",
+      "inherits": "base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo", "S2GHTLINE_SANITIZE": "ON" }
+    },
+    {
+      "name": "vs2022",
+      "displayName": "Visual Studio 2022 (x64, multi-config)",
+      "generator": "Visual Studio 17 2022",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "debug",           "configurePreset": "debug" },
+    { "name": "release",         "configurePreset": "release" },
+    { "name": "asan",            "configurePreset": "asan" },
+    { "name": "vs2022-debug",    "configurePreset": "vs2022", "configuration": "Debug" },
+    { "name": "vs2022-release",  "configurePreset": "vs2022", "configuration": "Release" }
+  ],
+  "testPresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "output": { "outputOnFailure": true },
+      "execution": { "noTestsAction": "error" }
+    },
+    { "name": "debug",            "inherits": "base", "configurePreset": "debug" },
+    { "name": "release",          "inherits": "base", "configurePreset": "release" },
+    { "name": "asan",             "inherits": "base", "configurePreset": "asan" },
+    { "name": "debug-synthetic",  "inherits": "base", "configurePreset": "debug",   "filter": { "include": { "label": "synthetic" } } },
+    { "name": "release-synthetic","inherits": "base", "configurePreset": "release", "filter": { "include": { "label": "synthetic" } } },
+    { "name": "asan-synthetic",   "inherits": "base", "configurePreset": "asan",    "filter": { "include": { "label": "synthetic" } } },
+    { "name": "vs2022-debug",     "inherits": "base", "configurePreset": "vs2022", "configuration": "Debug" },
+    { "name": "vs2022-release",   "inherits": "base", "configurePreset": "vs2022", "configuration": "Release" }
+  ]
+}

@@ -1,0 +1,16 @@
+# Build output (CMake presets, the VS project, the oracle)
+/build/
+/out/
+.vs/
+*.user
+tools/MapOracle/bin/
+tools/MapOracle/obj/
+
+# Local scratch files
+/.scratch/
+
+# Game files are never committed: maps, paks, extracted data
+*.vpk
+*.vmdl_c
+*.vphys_c
+*.vsurf_c

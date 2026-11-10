@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="examples">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_party">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\examples\raycast.cpp">
+      <Filter>examples</Filter>
+    </ClCompile>
+    <ClCompile Include="..\third_party\lz4\lz4.c">
+      <Filter>third_party</Filter>
+    </ClCompile>
+    <ClCompile Include="..\third_party\zstd\zstddeclib.c">
+      <Filter>third_party</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\s2ghtline\Bvh.h"><Filter>include</Filter></ClInclude>
+    <ClInclude Include="..\include\s2ghtline\Bytes.h"><Filter>include</Filter></ClInclude>
+    <ClInclude Include="..\include\s2ghtline\Kv3.h"><Filter>include</Filter></ClInclude>
+    <ClInclude Include="..\include\s2ghtline\MapLocator.h"><Filter>include</Filter></ClInclude>
+    <ClInclude Include="..\include\s2ghtline\MapManager.h"><Filter>include</Filter></ClInclude>
+    <ClInclude Include="..\include\s2ghtline\MapPhysics.h"><Filter>include</Filter></ClInclude>
+    <ClInclude Include="..\include\s2ghtline\PhysParser.h"><Filter>include</Filter></ClInclude>
+    <ClInclude Include="..\include\s2ghtline\Resource.h"><Filter>include</Filter></ClInclude>
+    <ClInclude Include="..\include\s2ghtline\SurfaceNames.h"><Filter>include</Filter></ClInclude>
+    <ClInclude Include="..\include\s2ghtline\SurfaceProperties.h"><Filter>include</Filter></ClInclude>
+    <ClInclude Include="..\include\s2ghtline\Vec3.h"><Filter>include</Filter></ClInclude>
+    <ClInclude Include="..\include\s2ghtline\Vpk.h"><Filter>include</Filter></ClInclude>
+    <ClInclude Include="..\include\s2ghtline\World.h"><Filter>include</Filter></ClInclude>
+    <ClInclude Include="..\tests\support\Cs2Install.h"><Filter>examples</Filter></ClInclude>
+    <ClInclude Include="..\third_party\lz4\lz4.h"><Filter>third_party</Filter></ClInclude>
+    <ClInclude Include="..\third_party\zstd\zstd.h"><Filter>third_party</Filter></ClInclude>
+  </ItemGroup>
+</Project>

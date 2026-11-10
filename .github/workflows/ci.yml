@@ -1,0 +1,67 @@
+name: CI
+
+# Builds with warnings as errors and runs the synthetic tests (label
+# "synthetic": generated input, no game needed). The real-map tests (label
+# "cs2") need an installed CS2 and are run locally.
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  windows-msvc:
+    name: Windows MSVC (${{ matrix.preset }})
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [debug, release, asan]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+      - name: Configure
+        run: cmake --preset ${{ matrix.preset }} -DS2GHTLINE_WERROR=ON
+      - name: Build
+        run: cmake --build --preset ${{ matrix.preset }}
+      - name: Synthetic tests
+        run: ctest --preset ${{ matrix.preset }}-synthetic
+
+  windows-vs-project:
+    name: Windows Visual Studio project
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Debug, Release]
+        platform: [x64, x86]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: microsoft/setup-msbuild@v2
+      - name: Build s2ghtline.sln
+        run: msbuild s2ghtline.sln /m /nologo /v:minimal /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /p:TreatWarningAsError=true
+
+  linux:
+    name: Linux ${{ matrix.compiler.cc }} (${{ matrix.preset }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler:
+          - { cc: gcc, cxx: g++ }
+          - { cc: clang, cxx: clang++ }
+        preset: [debug, release, asan]
+    env:
+      CC: ${{ matrix.compiler.cc }}
+      CXX: ${{ matrix.compiler.cxx }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Ninja
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
+      - name: Configure
+        run: cmake --preset ${{ matrix.preset }} -DS2GHTLINE_WERROR=ON
+      - name: Build
+        run: cmake --build --preset ${{ matrix.preset }}
+      - name: Synthetic tests
+        run: ctest --preset ${{ matrix.preset }}-synthetic
